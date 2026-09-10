@@ -25,14 +25,23 @@ class Paleta {
   int y;
   final int x;
   final int alto;
+  final int velocidad; // Cantidad de casillas por pulsación
 
-  Paleta({required this.x, required this.y, required this.alto});
+  Paleta({
+    required this.x,
+    required this.y,
+    required this.alto,
+    this.velocidad = 3, // 2 casillas por tecla hace el control reactivo
+  });
 
   void moverArriba() {
-    if (y > 1) y--;
+    // Evita subir más allá del borde superior (fila 1)
+    y = (y - velocidad < 1) ? 1 : y - velocidad;
   }
 
   void moverAbajo(int limiteInferior) {
-    if (y + alto < limiteInferior - 1) y++;
+    // Evita bajar más allá del marco inferior
+    final int limiteMaximo = limiteInferior - alto - 1;
+    y = (y + velocidad > limiteMaximo) ? limiteMaximo : y + velocidad;
   }
 }
